@@ -9,6 +9,6 @@ public class Cruds_doo {
         index opera = new index();
         opera.setLocationRelativeTo(null);
         opera.setVisible(true);
-        opera.setSize(420, 420);
+        opera.setSize(642, 511);
     }
 }

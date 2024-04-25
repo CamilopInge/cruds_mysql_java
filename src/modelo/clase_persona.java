@@ -1,17 +1,23 @@
 
 package modelo;
 
+import com.mysql.jdbc.ResultSetMetaData;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 import static modelo.conexion.conection;
 
 
 
+
 public class clase_persona extends conexion {
+    
+    public static Connection con;
     
     int id_user;
     String first_name, last_name, email_address,phonenumber;
@@ -19,7 +25,6 @@ public class clase_persona extends conexion {
     
     // metodos   
 public void guardar(String first_name, String last_name, String email_address, String phonenumber) {
-    Connection con;
     try {
         con = conection();
         PreparedStatement ps = con.prepareStatement("INSERT INTO users(first_name, last_name, email_address, phonenumber) VALUES (?, ?, ?, ?)");
@@ -42,7 +47,6 @@ public void guardar(String first_name, String last_name, String email_address, S
 }
 
 public void buscar(int id_user, JTextField txtID, JTextField txtNAME, JTextField txtLNAME, JTextField txtEMAIL, JTextField txtPHONE, JTextField txtTIME) {
-        Connection con;
         try {
             con = conection();
             PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE id_user = ?");
@@ -68,8 +72,50 @@ public void buscar(int id_user, JTextField txtID, JTextField txtNAME, JTextField
         }
     }
 
+public void cargartabla(JTable jtable){
+        try {
+            con = conection();
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtable.setModel(modelo);
+            PreparedStatement ps=null;
+            ResultSet rs=null;
+            
+            
+            String sql="SELECT id_user, first_name, last_name, email_address, phonenumber, create_at FROM users";
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            
+            ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
+            int cantidadcolumnas = rsMd.getColumnCount();
+            
+            modelo.addColumn("ID");
+            modelo.addColumn("Firt name");
+            modelo.addColumn("Last name");
+            modelo.addColumn("Email");
+            modelo.addColumn("Phone");
+            modelo.addColumn("Create at");
+            
+            
+            
+            while (rs.next()) {                
+                
+                
+             Object[] filas = new Object[cantidadcolumnas];
+             
+             for(int i=0; i<cantidadcolumnas; i++){
+             filas[i]=rs.getObject(i+1);
+             }
+                
+             modelo.addRow(filas);
+            }
+            
+        } catch (Exception e) {
+            System.out.println("ERROR"+e);
+        }
+
+}
+
 public void editar(int id_user,String first_name, String last_name, String email_address, String phonenumber){
-        Connection con;
         try {
             con = conection();
             PreparedStatement ps = con.prepareStatement("UPDATE `users` SET `first_name`=?,`last_name`=?,`email_address`=?,`phonenumber`=? WHERE id_user=?");
@@ -94,7 +140,7 @@ public void editar(int id_user,String first_name, String last_name, String email
 }
 
 public void eliminar(int id_user){
-        Connection con;
+
 
         try {
             con = conection();
@@ -180,4 +226,10 @@ public void eliminar(int id_user){
     public clase_persona(int id_user) {  //id:user
         this.id_user = id_user;
     }
+    
+    
+    public clase_persona() {  //id:user
+       
+    }
+    
 }
