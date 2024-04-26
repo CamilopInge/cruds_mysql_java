@@ -1,18 +1,13 @@
 package interfaz;
 
-
 import javax.swing.JOptionPane;
 import modelo.clase_persona;
 
-
 public class index extends javax.swing.JFrame {
-    
-    
-    
-    
+
     public index() {
         initComponents();
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -329,46 +324,49 @@ public class index extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTIMEActionPerformed
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
+        try {
+            String first_name = txtNAME.getText();
+            String last_name = txtLNAME.getText();
+            String email_address = txtEMAIL.getText();
+            String phonenumber = txtPHONE.getText();
 
-        String first_name = txtNAME.getText();
-        String last_name = txtLNAME.getText();
-        String email_address = txtEMAIL.getText();
-        String phonenumber = txtPHONE.getText();
+            clase_persona ob = new clase_persona(phonenumber, first_name, last_name, email_address);
+            ob.guardar(first_name, last_name, email_address, phonenumber);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar persona: " + e.getMessage(), "ERROR GUARDAR", JOptionPane.ERROR_MESSAGE);
 
-        clase_persona ob = new clase_persona(phonenumber, first_name, last_name, email_address);
-        ob.guardar(first_name, last_name, email_address, phonenumber);
+        }
+
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnbuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarActionPerformed
         try {
             int id_user = Integer.parseInt(txtID_KEY.getText());
-        clase_persona ob = new clase_persona(id_user);
-        ob.buscar(id_user, txtID, txtNAME, txtLNAME, txtEMAIL, txtPHONE, txtTIME);
+            clase_persona ob = new clase_persona(id_user);
+            ob.buscar(id_user, txtID, txtNAME, txtLNAME, txtEMAIL, txtPHONE, txtTIME);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al buscar persona: " + e.getMessage(), "ERROR BUSCAR", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
-        
-        
+
+
     }//GEN-LAST:event_btnbuscarActionPerformed
 
     private void btnmodificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarActionPerformed
 
         try {
-          
-        int id_user = Integer.parseInt(txtID_KEY.getText());
-        String first_name = txtNAME.getText();
-        String last_name = txtLNAME.getText();
-        String email_address = txtEMAIL.getText();
-        String phonenumber = txtPHONE.getText();
-        
-        clase_persona ob = new clase_persona(id_user, first_name, last_name, email_address, phonenumber);
-        ob.editar(id_user,first_name, last_name, email_address, phonenumber); 
+
+            int id_user = Integer.parseInt(txtID_KEY.getText());
+            String first_name = txtNAME.getText();
+            String last_name = txtLNAME.getText();
+            String email_address = txtEMAIL.getText();
+            String phonenumber = txtPHONE.getText();
+
+            clase_persona ob = new clase_persona(id_user, first_name, last_name, email_address, phonenumber);
+            ob.editar(id_user, first_name, last_name, email_address, phonenumber);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al editar persona: " + e.getMessage(), "ERROR EDITAR", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnmodificarActionPerformed
 
     private void txtNAMEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNAMEActionPerformed
@@ -378,19 +376,19 @@ public class index extends javax.swing.JFrame {
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
         try {
             int id_user = Integer.parseInt(txtID_KEY.getText());
-        clase_persona ob = new clase_persona(id_user);
-        ob.eliminar(id_user);
-            
+            clase_persona ob = new clase_persona(id_user);
+            ob.eliminar(id_user);
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar persona: " + e.getMessage(), "ERROR ELIMINAR", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btneliminarActionPerformed
 
     private void btncargartablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncargartablaActionPerformed
 
-       clase_persona persona = new clase_persona();
-    persona.cargartabla(jtable);
+        clase_persona persona = new clase_persona();
+        persona.cargartabla(jtable);
     }//GEN-LAST:event_btncargartablaActionPerformed
 
     private void txtID_KEYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtID_KEYActionPerformed
@@ -398,55 +396,49 @@ public class index extends javax.swing.JFrame {
     }//GEN-LAST:event_txtID_KEYActionPerformed
 
     private void txtNAMEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNAMEKeyTyped
-            int key = evt.getKeyChar();
+        int key = evt.getKeyChar();
 
-    boolean mayusculas = key >= 65 && key <= 90;
-    boolean minusculas = key >= 97 && key <= 122;
-    
-            
-     if (!(minusculas || mayusculas))
-    {
-        evt.consume();
-    }
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+
+        if (!(minusculas || mayusculas)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtNAMEKeyTyped
 
     private void txtLNAMEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLNAMEKeyTyped
-            int key = evt.getKeyChar();
+        int key = evt.getKeyChar();
 
-    boolean mayusculas = key >= 65 && key <= 90;
-    boolean minusculas = key >= 97 && key <= 122;
-    
-            
-     if (!(minusculas || mayusculas))
-    {
-        evt.consume();
-    }
+        boolean mayusculas = key >= 65 && key <= 90;
+        boolean minusculas = key >= 97 && key <= 122;
+
+        if (!(minusculas || mayusculas)) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtLNAMEKeyTyped
 
     private void txtPHONEKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPHONEKeyTyped
         int key = evt.getKeyChar();
-    boolean numeros = key >= 48 && key <= 57;
-    if (!numeros)
-    {
-        evt.consume();
-    }
+        boolean numeros = key >= 48 && key <= 57;
+        if (!numeros) {
+            evt.consume();
+        }
 
-    if (txtPHONE.getText().trim().length() == 10) {
-        evt.consume();
-    }
+        if (txtPHONE.getText().trim().length() == 10) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtPHONEKeyTyped
 
     private void txtID_KEYKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtID_KEYKeyTyped
         int key = evt.getKeyChar();
-    boolean numeros = key >= 48 && key <= 57;
-    if (!numeros)
-    {
-        evt.consume();
-    }
+        boolean numeros = key >= 48 && key <= 57;
+        if (!numeros) {
+            evt.consume();
+        }
 
-    if (txtID_KEY.getText().trim().length() == 3) {
-        evt.consume();
-    }
+        if (txtID_KEY.getText().trim().length() == 3) {
+            evt.consume();
+        }
     }//GEN-LAST:event_txtID_KEYKeyTyped
 
     public static void main(String args[]) {

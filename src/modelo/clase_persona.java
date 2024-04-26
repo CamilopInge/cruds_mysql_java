@@ -1,4 +1,3 @@
-
 package modelo;
 
 import com.mysql.jdbc.ResultSetMetaData;
@@ -12,41 +11,37 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import static modelo.conexion.conection;
 
-
-
-
 public class clase_persona extends conexion {
-    
+
     public static Connection con;
-    
+
     int id_user;
-    String first_name, last_name, email_address,phonenumber;
-    
-    
+    String first_name, last_name, email_address, phonenumber;
+
     // metodos   
-public void guardar(String first_name, String last_name, String email_address, String phonenumber) {
-    try {
-        con = conection();
-        PreparedStatement ps = con.prepareStatement("INSERT INTO users(first_name, last_name, email_address, phonenumber) VALUES (?, ?, ?, ?)");
-        ps.setString(1, first_name);
-        ps.setString(2, last_name);
-        ps.setString(3, email_address);
-        ps.setString(4, phonenumber);
+    public void guardar(String first_name, String last_name, String email_address, String phonenumber) {
+        try {
+            con = conection();
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users(first_name, last_name, email_address, phonenumber) VALUES (?, ?, ?, ?)");
+            ps.setString(1, first_name);
+            ps.setString(2, last_name);
+            ps.setString(3, email_address);
+            ps.setString(4, phonenumber);
 
-        int res = ps.executeUpdate();
+            int res = ps.executeUpdate();
 
-        if (res > 0) {
-            JOptionPane.showMessageDialog(null, "Persona Guardada");
-        } else {
-            JOptionPane.showMessageDialog(null, "Error al Guardar persona");
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Persona Guardada");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al Guardar persona");
+            }
+            con.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al guardar persona: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-        con.close();
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error al guardar persona: " + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
     }
-}
 
-public void buscar(int id_user, JTextField txtID, JTextField txtNAME, JTextField txtLNAME, JTextField txtEMAIL, JTextField txtPHONE, JTextField txtTIME) {
+    public void buscar(int id_user, JTextField txtID, JTextField txtNAME, JTextField txtLNAME, JTextField txtEMAIL, JTextField txtPHONE, JTextField txtTIME) {
         try {
             con = conection();
             PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE id_user = ?");
@@ -72,50 +67,46 @@ public void buscar(int id_user, JTextField txtID, JTextField txtNAME, JTextField
         }
     }
 
-public void cargartabla(JTable jtable){
+    public void cargartabla(JTable jtable) {
         try {
             con = conection();
             DefaultTableModel modelo = new DefaultTableModel();
             jtable.setModel(modelo);
-            PreparedStatement ps=null;
-            ResultSet rs=null;
-            
-            
-            String sql="SELECT id_user, first_name, last_name, email_address, phonenumber, create_at FROM users";
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+
+            String sql = "SELECT id_user, first_name, last_name, email_address, phonenumber, create_at FROM users";
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
-            
+
             ResultSetMetaData rsMd = (ResultSetMetaData) rs.getMetaData();
             int cantidadcolumnas = rsMd.getColumnCount();
-            
+
             modelo.addColumn("ID");
             modelo.addColumn("Firt name");
             modelo.addColumn("Last name");
             modelo.addColumn("Email");
             modelo.addColumn("Phone");
             modelo.addColumn("Create at");
-            
-            
-            
-            while (rs.next()) {                
-                
-                
-             Object[] filas = new Object[cantidadcolumnas];
-             
-             for(int i=0; i<cantidadcolumnas; i++){
-             filas[i]=rs.getObject(i+1);
-             }
-                
-             modelo.addRow(filas);
+
+            while (rs.next()) {
+
+                Object[] filas = new Object[cantidadcolumnas];
+
+                for (int i = 0; i < cantidadcolumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+
+                modelo.addRow(filas);
             }
-            
+
         } catch (Exception e) {
-            System.out.println("ERROR"+e);
+            System.out.println("ERROR" + e);
         }
 
-}
+    }
 
-public void editar(int id_user,String first_name, String last_name, String email_address, String phonenumber){
+    public void editar(int id_user, String first_name, String last_name, String email_address, String phonenumber) {
         try {
             con = conection();
             PreparedStatement ps = con.prepareStatement("UPDATE `users` SET `first_name`=?,`last_name`=?,`email_address`=?,`phonenumber`=? WHERE id_user=?");
@@ -137,10 +128,9 @@ public void editar(int id_user,String first_name, String last_name, String email
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al editar persona " + e, "ERROR", 0);
         }
-}
+    }
 
-public void eliminar(int id_user){
-
+    public void eliminar(int id_user) {
 
         try {
             con = conection();
@@ -161,10 +151,9 @@ public void eliminar(int id_user){
             JOptionPane.showMessageDialog(null, "Error al eliminar persona " + e, "ERROR", 0);
         }
 
-}
+    }
 
     //Getter & Setter
-
     public int getId_user() {
         return id_user;
     }
@@ -204,9 +193,8 @@ public void eliminar(int id_user){
     public void setEmail_address(String email_address) {
         this.email_address = email_address;
     }
-   
-    //Constructor
 
+    //Constructor
     public clase_persona(int id_user, String first_name, String last_name, String email_address, String phonenumber) {
         this.id_user = id_user;
         this.first_name = first_name;
@@ -214,22 +202,21 @@ public void eliminar(int id_user){
         this.email_address = email_address;
         this.phonenumber = phonenumber;
     }
-    
+
     public clase_persona(String phonenumber, String first_name, String last_name, String email_address) { //datos:persona
-        
+
         this.phonenumber = phonenumber;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email_address = email_address;
     }
-    
+
     public clase_persona(int id_user) {  //id:user
         this.id_user = id_user;
     }
-    
-    
+
     public clase_persona() {  //id:user
-       
+
     }
-    
+
 }

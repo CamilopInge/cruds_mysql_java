@@ -4,7 +4,6 @@ import interfaz.index;
 
 public class Cruds_doo {
 
-
     public static void main(String[] args) {
         index opera = new index();
         opera.setLocationRelativeTo(null);
